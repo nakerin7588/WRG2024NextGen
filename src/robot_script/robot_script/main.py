@@ -109,12 +109,14 @@ def main():
     motor_control_client = MotorControlClient()
     motor_state_subscriber = MotorStateSubscriber()
 
-    initial_pose = create_pose_stamped(nav, 0.0, 0.0, 0.0)
+    # initial_pose = create_pose_stamped(nav, 0.0, 0.0, 0.0)
 
     goal_pose = [
-        create_pose_stamped(nav, 2.5, 1.0, 1.57),
-        create_pose_stamped(nav, 2.0, 2.5, 3.14),
-        create_pose_stamped(nav, 0.5, 1.0, -1.57)
+        create_pose_stamped(nav, -0.02, 0.52, -1.57),
+        create_pose_stamped(nav, 0.57, 0.52, -1.57),
+        create_pose_stamped(nav, 1.08, 0.52, -1.57),
+        create_pose_stamped(nav, 1.54, 0.52, -1.57),
+        create_pose_stamped(nav, 2.00, 0.52, -1.57)
     ]
 
     executor = rclpy.executors.MultiThreadedExecutor()
@@ -123,8 +125,8 @@ def main():
     et = Thread(target=executor.spin)
     et.start()
 
-    # Set Initial Pose
-    nav.setInitialPose(initial_pose)
+    # # Set Initial Pose
+    # nav.setInitialPose(initial_pose)
 
     #wait for nav2
     nav.waitUntilNav2Active()
@@ -133,6 +135,8 @@ def main():
     goToPoseAction(nav, motor_control_client, motor_state_subscriber, goal_pose[0])
     goToPoseAction(nav, motor_control_client, motor_state_subscriber, goal_pose[1])
     goToPoseAction(nav, motor_control_client, motor_state_subscriber, goal_pose[2])
+    goToPoseAction(nav, motor_control_client, motor_state_subscriber, goal_pose[3])
+    goToPoseAction(nav, motor_control_client, motor_state_subscriber, goal_pose[4])
 
     #Send Result
     print(nav.getResult())
